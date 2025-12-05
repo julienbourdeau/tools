@@ -82,3 +82,7 @@ wrangler pages dev public --binding ASSETS=public
 
 - Cloudflare Pages (free tier works!)
 - No Node.js, npm, or other build tools required - just shell scripts
+
+## Security Note
+
+The JavaScript files in the `artifacts/` folder are executed directly in the browser. Only add trusted code to this folder - these files are treated as first-party scripts and have full access to the page. File names must contain only alphanumeric characters, hyphens, and underscores.
