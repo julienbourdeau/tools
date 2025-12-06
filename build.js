@@ -94,24 +94,139 @@ root.render(<Component />);
     console.log(`    -> ${outputPath}/index.html`);
   }
 
-  // Create a simple index page listing all artifacts
+  // Create a retro NES-style index page listing all artifacts
+  const toolsList = artifactFiles.map(file => {
+    const name = file.replace(/\.(js|jsx|ts|tsx)$/, '');
+    const displayName = name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    return `<a href="/${name}/"><button type="button" class="nes-btn is-primary">${displayName}</button></a>`;
+  }).join('\n          ');
+
   const indexHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tools</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Tools Dungeon</title>
+  <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    html, body, pre, code, kbd, samp {
+      font-family: "Press Start 2P", cursive;
+    }
+    body {
+      background-color: #212529;
+      color: #fff;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .nes-container {
+      background-color: #212529;
+      color: #fff;
+    }
+    .nes-container.is-dark {
+      background-color: #212529;
+    }
+    .title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .title h1 {
+      color: #92cc41;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: #888;
+      font-size: 0.6rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .intro-text {
+      font-size: 0.7rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      color: #ccc;
+    }
+    .tools-section {
+      margin-top: 2rem;
+    }
+    .tools-section h2 {
+      font-size: 0.8rem;
+      color: #f7d51d;
+      margin-bottom: 1rem;
+    }
+    .tools-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .tools-list a {
+      text-decoration: none;
+    }
+    .tools-list .nes-btn {
+      width: 100%;
+      font-size: 0.7rem;
+    }
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.5rem;
+      color: #666;
+    }
+    .blink {
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .hearts {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+  </style>
 </head>
-<body class="min-h-screen bg-slate-900 text-white p-8">
-  <div class="max-w-2xl mx-auto">
-    <h1 class="text-3xl font-bold mb-8">Tools</h1>
-    <ul class="space-y-3">
-      ${artifactFiles.map(file => {
-        const name = file.replace(/\.(js|jsx|ts|tsx)$/, '');
-        return `<li><a href="/${name}/" class="text-amber-400 hover:text-amber-300 underline">${name}</a></li>`;
-      }).join('\n      ')}
-    </ul>
+<body>
+  <div class="container">
+    <section class="nes-container is-dark with-title">
+      <h3 class="title" style="color: #fff; background-color: #212529;">Welcome, Hero!</h3>
+
+      <div class="title">
+        <h1>TOOLS DUNGEON</h1>
+      </div>
+
+      <p class="subtitle">~ A collection of legendary utilities ~</p>
+
+      <div class="hearts">
+        <i class="nes-icon is-medium heart"></i>
+        <i class="nes-icon is-medium heart"></i>
+        <i class="nes-icon is-medium heart"></i>
+      </div>
+
+      <p class="intro-text">
+        You have entered the TOOLS DUNGEON.<br><br>
+        Here lie powerful artifacts forged in the fires of code.<br><br>
+        Choose your weapon wisely...<span class="blink">_</span>
+      </p>
+
+      <div class="tools-section">
+        <h2><i class="nes-icon trophy is-small"></i> Available Quests</h2>
+        <div class="tools-list">
+          ${toolsList}
+        </div>
+      </div>
+
+      <p class="footer">
+        <i class="nes-icon coin is-small"></i>
+        PRESS START TO CONTINUE
+        <i class="nes-icon coin is-small"></i>
+      </p>
+    </section>
   </div>
 </body>
 </html>`;
